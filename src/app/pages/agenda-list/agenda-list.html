@@ -1,0 +1,46 @@
+<div class="main-container">
+  <h1 class="page-title">Minhas Agendas</h1>
+  @if (agendas$ | async; as pageResponse) { @if (pageResponse.content && pageResponse.content.length
+  > 0) {
+  <div class="agendas-grid">
+    @for (agenda of pageResponse.content; track agenda.id) {
+    <mat-card class="agenda-card mat-elevation-z4">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>folder</mat-icon>
+        <mat-card-title>{{ agenda.name }}</mat-card-title>
+        <mat-card-subtitle>ID: {{ agenda.id }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-actions>
+        <a
+          mat-icon-button
+          [routerLink]="['/agendas', agenda.id]"
+          aria-label="Ver detalhes da agenda"
+        >
+          <mat-icon>visibility</mat-icon>
+        </a>
+
+        <button mat-icon-button (click)="openEditAgendaDialog(agenda)" aria-label="Editar agenda">
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="openDeleteAgendaDialog(agenda)"
+          aria-label="Deletar agenda"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    }
+  </div>
+  } @else {
+  <p>Nenhuma agenda encontrada. Que tal criar a primeira?</p>
+  } }
+</div>
+
+<button mat-fab color="primary" class="fab-bottom-right" (click)="openCreateAgendaDialog()">
+  <mat-icon>add</mat-icon>
+</button>

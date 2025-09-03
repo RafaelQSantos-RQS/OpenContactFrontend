@@ -1,0 +1,42 @@
+.page-title {
+  color: var(--mat-sys-on-surface);
+  text-align: center;
+  font-size: 28px;
+  font-weight: 400;
+  margin: 0 0 24px 0;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  padding-bottom: 16px;
+}
+
+.agendas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.fab-bottom-right {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px 8px 16px !important;
+}
+
+.agenda-card {
+  background-color: var(--mat-sys-surface-container-lowest);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.agenda-card mat-card-header {
+  padding-top: 16px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
