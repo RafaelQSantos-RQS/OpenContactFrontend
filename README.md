@@ -1,4 +1,4 @@
-# OpenContact - Frontend  ओपन संपर्क
+# OpenContact - Frontend
 
 ![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
 ![Angular Material](https://img.shields.io/badge/Angular_Material-7B1FA2?style=for-the-badge&logo=angular&logoColor=white)
