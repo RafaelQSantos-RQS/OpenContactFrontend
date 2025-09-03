@@ -1,59 +1,97 @@
-# OpenContactFrontend
+# OpenContact - Frontend  ओपन संपर्क
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![Angular Material](https://img.shields.io/badge/Angular_Material-7B1FA2?style=for-the-badge&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![SCSS](https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=sass&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
-## Development server
+Este é o repositório do frontend para o projeto OpenContact, uma Single-Page Application (SPA) para gerenciamento de agendas e contatos. A aplicação foi desenvolvida seguindo as práticas mais modernas do Angular, com foco em uma arquitetura limpa, reativa e componentes reutilizáveis.
 
-To start a local development server, run:
+## ✨ Funcionalidades Implementadas
 
-```bash
-ng serve
-```
+A aplicação implementa um ciclo de vida completo de funcionalidades CRUD (Create, Read, Update, Delete) para as entidades principais.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### 🏛️ Gerenciamento de Agendas
+- **Criação e Edição:** Adição e atualização de agendas através de um dialog modal reutilizável.
+- **Listagem:** Visualização de todas as agendas em um grid de cards responsivo.
+- **Deleção:** Remoção de agendas com um dialog de confirmação para segurança.
+- **Navegação:** Acesso à página de detalhes de cada agenda.
 
-## Code scaffolding
+### 👤 Gerenciamento de Contatos
+- **CRUD Completo:** Criação, leitura, edição e remoção de contatos associados a uma agenda específica.
+- **Formulários Reativos:** Uso de Reactive Forms para validação robusta dos dados de contato (nome, tipo, DDD, telefone).
+- **Tabela de Dados Profissional (`MatTable`):**
+    - **Paginação:** A lista de contatos é paginada, otimizando a performance ao lidar com grandes volumes de dados.
+    - **Busca em Tempo Real:** Um campo de busca filtra os contatos por nome instantaneamente, utilizando o poder do RxJS (`debounceTime`, `switchMap`) para evitar chamadas excessivas à API.
+- **UX Melhorada:** Submissão de formulários com a tecla `Enter` e diálogos de confirmação para ações destrutivas.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 🎨 UI & Design
+- **Angular Material:** Interface construída com a suíte de componentes do Angular Material.
+- **Layout Profissional:** Estrutura consistente com uma Navbar superior persistente e conteúdo principal centralizado.
+- **Design Coeso:** Estilização customizada e polida, incluindo uma barra de busca "estilo Google", botões de ícone e um tema de cores consistente.
+- **Ícones Customizados:** Registro de ícones SVG personalizados (`MatIconRegistry`) para logos de marcas (ex: GitHub).
 
-```bash
-ng generate component component-name
-```
+## 🚀 Arquitetura e Tecnologias
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- **Framework:** Angular (v20+)
+- **Conceitos Principais:**
+    - **Standalone Components:** Arquitetura 100% baseada em componentes autônomos.
+    - **Controle de Fluxo Nativo:** Uso da sintaxe `@if` e `@for` para templates.
+    - **Programação Reativa (RxJS):** Gerenciamento de fluxos de dados assíncronos para chamadas de API e filtros.
+- **Linguagem:** TypeScript
+- **Estilização:** SCSS
+- **Containerização:**
+    - **Dockerfile Multi-Stage:** Build otimizado que resulta em uma imagem Docker leve com Nginx.
+    - **Configuração Flexível:** Uso de variáveis de ambiente no Nginx para conectar ao backend, permitindo que a mesma imagem seja usada em diferentes ambientes.
 
-```bash
-ng generate --help
-```
+## ▶️ Como Executar (Desenvolvimento Local)
 
-## Building
+1.  **Pré-requisitos:**
+    - Node.js (v22.x ou superior)
+    - Angular CLI (`npm install -g @angular/cli`)
 
-To build the project run:
+2.  **Clone o repositório:**
+    ```bash
+    git clone https://github.com/RafaelQSantos-RQS/OpenContactFrontend
+    cd OpenContactFrontend
+    ```
 
-```bash
-ng build
-```
+3.  **Instale as dependências:**
+    ```bash
+    npm install
+    ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+4.  **Execute a aplicação:**
+    ```bash
+    ng serve
+    ```
+    A aplicação estará disponível em `http://localhost:4200/`. Lembre-se que a API backend precisa estar rodando e o arquivo `proxy.conf.json` configurado corretamente.
 
-## Running unit tests
+## 🐳 Como Executar com Docker
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+O projeto inclui um `Dockerfile` otimizado e uma configuração para Nginx.
 
-```bash
-ng test
-```
+1.  **Build da imagem Docker:**
+    ```bash
+    docker build -t opencontact-frontend .
+    ```
 
-## Running end-to-end tests
+2.  **Execute com Docker Compose (Recomendado):**
+    Para rodar em conjunto com o backend, adicione o seguinte serviço ao seu arquivo `docker-compose.yml`:
 
-For end-to-end (e2e) testing, run:
+    ```yaml
+    services:
+      # ... seu serviço de api (ex: backend-api)
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+      frontend:
+        build:
+          context: ./caminho/para/o/repo/do/frontend # Caminho para este projeto
+        ports:
+          - "80:80"
+        depends_on:
+          - backend-api
+        environment:
+          - API_SERVICE_URL=backend-api
+    ```
+    Execute com `docker-compose up`. A aplicação estará disponível em `http://localhost/`.
