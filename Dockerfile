@@ -8,28 +8,29 @@ FROM node:${NODE_VERSION} AS builder
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
 RUN --mount=type=cache,target=/root/.npm npm ci
 
 COPY . .
 
-RUN npm run build -- --configuration production
+RUN npm run build
 
 # =========================================
 # Stage 2: Prepare Nginx to Serve Static Files
 # =========================================
 
-FROM nginx:${NGINX_VERSION} as runner
+FROM nginxinc/nginx-unprivileged:${NGINX_VERSION} AS runner
 
-COPY nginx.conf.template /etc/nginx/conf.d/nginx.conf.template
+USER nginx
 
-COPY entrypoint.sh /
-RUN chmod +x /entrypoint.sh
+COPY nginx.conf /etc/nginx/nginx.conf
 
-ARG APP_NAME=cliente-agendas
-COPY --from=builder /app/dist/${APP_NAME}/browser /usr/share/nginx/html
+COPY --chown=nginx:nginx --from=builder /app/dist/*/browser /usr/share/nginx/html
 
-EXPOSE 80
+COPY --chown=nginx:nginx entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
-CMD ["/entrypoint.sh"]
+EXPOSE 8080
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
