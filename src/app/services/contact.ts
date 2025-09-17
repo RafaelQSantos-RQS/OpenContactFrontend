@@ -30,14 +30,14 @@ export class ContactService {
     agendaId: string,
     page: number,
     size: number,
-    nameFilter?: string
+    phoneFilter?: string
   ): Observable<PageResponse<Contact>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
 
-    if (nameFilter && nameFilter.trim() !== '') {
-      params = params.set('nameContains', nameFilter);
+    if (phoneFilter && phoneFilter.trim() !== '') {
+      params = params.set('phoneContains', phoneFilter);
     }
 
     return this.http.get<PageResponse<Contact>>(`${this.AGENDAS_API_URL}/${agendaId}/contacts`, { params });
