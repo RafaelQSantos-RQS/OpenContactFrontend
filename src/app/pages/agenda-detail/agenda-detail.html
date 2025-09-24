@@ -2,10 +2,18 @@
 
 <div class="main-container">
   <div class="page-header">
-    <h1>{{ agenda.name }}</h1>
-    <p class="header-subtitle">
-      Criada em: {{ agenda.createdAt | date:'dd/MM/yyyy HH:mm' }}
-    </p>
+    <div class="header-content">
+      <h1>{{ agenda.name }}</h1>
+      <p class="header-subtitle">
+        Criada em: {{ agenda.createdAt | date:'dd/MM/yyyy HH:mm' }}
+      </p>
+    </div>
+    <div class="header-actions">
+        <button mat-stroked-button color="warn" (click)="openDeleteByPrefixDialog()">
+            <mat-icon>delete_sweep</mat-icon>
+            Excluir por Prefixo
+        </button>
+    </div>
   </div>
 
   <h2 class="section-title">Contatos</h2>

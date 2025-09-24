@@ -17,6 +17,7 @@ import { Contact, ContactCreate, ContactService } from '../../services/contact';
 import { PageResponse } from '../../models/page';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { DeleteByPrefixDialog } from '../../components/delete-by-prefix-dialog/delete-by-prefix-dialog';
 
 @Component({
   selector: 'app-agenda-detail',
@@ -129,8 +130,8 @@ export class AgendaDetail implements OnInit {
         });
       }
     });
-
   }
+
   openEditContactDialog(contact: Contact): void {
     const dialogRef = this.dialog.open(CreateContactDialog, {
       width: '500px',
@@ -142,6 +143,32 @@ export class AgendaDetail implements OnInit {
         this.contactService.updateContact(contact.id, result).subscribe(() => {
           console.log('Contato atualizado com sucesso!');
           this.loadContacts();
+        });
+      }
+    });
+  }
+
+  openDeleteByPrefixDialog(): void {
+    const dialogRef = this.dialog.open(DeleteByPrefixDialog, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(prefix => {
+      if (prefix && this.agendaId) {
+        const confirmDialogRef = this.dialog.open(ConfirmDialog, {
+          data: {
+            title: 'Confirmar Exclusão em Massa',
+            message: `Tem certeza que deseja remover todos os contatos com o prefixo '${prefix}'?`
+          } as ConfirmDialogData
+        });
+
+        confirmDialogRef.afterClosed().subscribe(result => {
+          if (result === true && this.agendaId) {
+            this.contactService.deleteContactsByNamePrefix(this.agendaId, prefix).subscribe(() => {
+              console.log(`Contatos com prefixo '${prefix}' removidos com sucesso!`);
+              this.loadContacts();
+            });
+          }
         });
       }
     });
