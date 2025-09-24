@@ -55,4 +55,9 @@ export class ContactService {
   updateContact(contactId: string, contactData: ContactCreate): Observable<Contact> {
     return this.http.put<Contact>(`${this.CONTACTS_API_URL}/${contactId}`, contactData);
   }
+
+  deleteContactsByNamePrefix(agendaId: string, namePrefix: string): Observable<void> {
+    const params = new HttpParams().set('namePrefix', namePrefix);
+    return this.http.delete<void>(`${this.AGENDAS_API_URL}/${agendaId}/contacts`, { params });
+  }
 }
